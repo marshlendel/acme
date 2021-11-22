@@ -11,7 +11,21 @@ export class ProductListComponent implements OnInit {
     imageWidth = 50
     imageHeight = 40
     isClicked = false
-    listFilter = ""
+
+    private _listFilter = ""
+    get listFilter(): string {
+      return this._listFilter
+    }
+
+    set listFilter(value:string) {
+      this._listFilter = value
+      console.log("Set to", this._listFilter)
+      this.filteredProducts = this.filterProducts(value)
+
+    }
+
+    filteredProducts: Iproduct[] = []
+
     products: Iproduct[] = [
         {
             "productId": 1,
@@ -71,5 +85,10 @@ export class ProductListComponent implements OnInit {
 
     ngOnInit(): void{
       console.log("on init")
+    }
+
+    filterProducts(filter: string): Iproduct[] {
+      let casedFilter = filter.toLowerCase()
+       return this.products.filter((product: Iproduct) => product.productName.toLowerCase().includes(casedFilter) )
     }
 }
